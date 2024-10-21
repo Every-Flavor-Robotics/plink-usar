@@ -44,7 +44,6 @@ def generate_launch_description():
     bringup_dir = get_package_share_directory('launchers')
     launch_dir = os.path.join(bringup_dir, 'launch')
     # This checks that tb3 exists needed for the URDF. If not using TB3, its safe to remove.
-
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
     use_namespace = LaunchConfiguration('use_namespace')
@@ -75,11 +74,11 @@ def generate_launch_description():
         description='Whether to apply a namespace to the navigation stack',
     )
 
-    # declare_map_yaml_cmd = DeclareLaunchArgument(
-    #     'map',
-    #     default_value=os.path.join(bringup_dir, 'maps', 'turtlebot3_world.yaml'),
-    #     description='Full path to map file to load',
-    # )
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='False',
+        description='Use simulation (Gazebo) clock if true',
+    )
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
@@ -105,11 +104,7 @@ def generate_launch_description():
         description='Whether to respawn if a node crashes. Applied when composition is disabled.',
     )
 
-    declare_use_sim_time_cmd = DeclareLaunchArgument(
-        'use_sim_time',
-        default_value='False',
-        description='Use simulation (Gazebo) clock if true',
-    )
+
 
     declare_robot_name_cmd = DeclareLaunchArgument(
         'robot_name', default_value='plinker', description='name of the robot'
@@ -170,6 +165,7 @@ def generate_launch_description():
     # Declare the launch options
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
+    ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_composition_cmd)
